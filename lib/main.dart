@@ -1,6 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:write_app/photoCheck.dart';
-import 'appbar.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +35,30 @@ class _HomepageState extends State<Homepage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: Appbar(),
+        appBar: AppBar(
+          title: Image.asset(
+            'assets/tmp로고.JPG',
+            height: 32,
+          ),
+          // centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          centerTitle: true,
+          bottom: TabBar(
+            isScrollable: false,
+            indicatorWeight: 4,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            labelStyle: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            tabs: [
+              Tab(text: "폰트 제작법"),
+              Tab(text: "폰트 선택하기"),
+            ],
+          ),
+        ),
         body: TabBarView(
           children: [
             Column(
@@ -101,5 +123,56 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
     );
+  }
+}
+
+class PhotoCheck extends StatefulWidget {
+  const PhotoCheck({super.key});
+
+  @override
+  State<PhotoCheck> createState() => _PhotoCheckState();
+}
+
+class _PhotoCheckState extends State<PhotoCheck> {
+  @override
+  Widget build(BuildContext context) {
+    return Appbar();
+  }
+}
+
+class Appbar extends StatelessWidget {
+  const Appbar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            appBar: AppBar(
+          title: Image.asset(
+            'assets/tmp로고.JPG',
+            height: 32,
+          ),
+          // centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          centerTitle: true,
+          bottom: TabBar(
+            isScrollable: false,
+            indicatorWeight: 4,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            labelStyle: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            tabs: [
+              Tab(text: "폰트 제작법"),
+              Tab(text: "폰트 선택하기"),
+            ],
+          ),
+        )));
   }
 }
