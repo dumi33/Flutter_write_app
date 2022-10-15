@@ -17,7 +17,7 @@ class _HomepageState extends State<Homepage> {
       child: Scaffold(
         appBar: AppBar(
           title: Image.asset(
-            'assets/tmp로고.JPG',
+            'assets/writing-logo.png',
             height: 32,
           ),
           // centerTitle: true,

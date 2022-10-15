@@ -16,7 +16,7 @@ class _UseFontState extends State<UseFont> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Image.asset(
-            'assets/tmp로고.JPG',
+            'assets/writing-logo.png',
             height: 32,
           ),
           // centerTitle: true,

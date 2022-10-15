@@ -91,6 +91,11 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_native_splash:
+  image: assets/writing-logo.png
+  branding: assets/geumcheon-ci.png
   color: "#FFFFFF"
-  image: assets/splash.png
-  fullscreen: true
+
+  android_12:
+    image: assets/logo.png
+    branding: assets/geumcheon-ci.png
+    color: "#FFFFFF"
