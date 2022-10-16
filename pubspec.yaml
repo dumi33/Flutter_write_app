@@ -91,8 +91,8 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_native_splash:
-  image: assets/writing-logo.png
-  branding: assets/geumcheon-ci.png
+  image: assets/writing-logo.png # 이건 스플래시 중앙에 뜨는 로고
+  branding: assets/geumcheon-ci.png # 브랜딩 로고는 스플래시 하단부에 뜨는 로고
   color: "#FFFFFF"
 
   android_12:

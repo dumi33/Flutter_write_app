@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'PhotoCheck.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+class TabPage extends StatefulWidget {
+  const TabPage({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<TabPage> createState() => _TabPageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _TabPageState extends State<TabPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -46,12 +46,12 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(height: 25),
                 Center(
                     child: Text(
-                      '자신만의 폰트를 제작해보세요',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
+                  '자신만의 폰트를 제작해보세요',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
                 Center(child: Text('문장을 따라 작성한 후 사진을 찍으면 폰트가 형성됩니다.')),
                 SizedBox(height: 25),
                 Container(
