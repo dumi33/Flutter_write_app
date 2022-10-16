@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'PhotoCheck.dart';
-import 'UseFont.dart';
+import "PhotoCheck.dart";
+import "UseFont.dart";
 
 class SelectFont extends StatefulWidget {
   const SelectFont({super.key});

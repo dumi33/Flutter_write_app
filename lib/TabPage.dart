@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'PhotoCheck.dart';
+import "FontProduction.dart";
+import "FontSelect.dart";
 
 class TabPage extends StatefulWidget {
   const TabPage({super.key});
@@ -39,66 +40,11 @@ class _TabPageState extends State<TabPage> {
             ],
           ),
         ),
+
         body: TabBarView(
           children: [
-            Column(
-              children: [
-                SizedBox(height: 25),
-                Center(
-                    child: Text(
-                  '자신만의 폰트를 제작해보세요',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-                Center(child: Text('문장을 따라 작성한 후 사진을 찍으면 폰트가 형성됩니다.')),
-                SizedBox(height: 25),
-                Container(
-                  height: 100,
-                  width: 250,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.blue),
-                    // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
-                  ),
-                  child: Image.asset(
-                    'assets/모란.JPG',
-                  ),
-                ),
-                SizedBox(height: 25),
-                Container(
-                  height: 100,
-                  width: 250,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.blue),
-                    // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
-                  ),
-                  child: Image.asset(
-                    'assets/모란.JPG',
-                  ),
-                ),
-                SizedBox(height: 25),
-                ElevatedButton(
-                  child: Text("촬영"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => (PhotoCheck())),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(
-                        fontFamily: 'milasiancirca',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontStyle: FontStyle.normal),
-                  ),
-                ),
-              ],
-            ),
-
-            /// 나만의 메뉴
-            Center(child: Text("폰트 선택하기")),
+            FontProduction(),
+            FontSelect(),
           ],
         ),
       ),
