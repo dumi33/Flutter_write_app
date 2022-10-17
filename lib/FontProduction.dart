@@ -45,11 +45,10 @@ class FontProduction extends StatelessWidget {
         ),
         SizedBox(height: 25),
         ElevatedButton(
-          child: Text("촬영"),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => (PhotoCheck())),
+              MaterialPageRoute(builder: (_) => PhotoCheck()),
             );
           },
           style: ElevatedButton.styleFrom(
@@ -59,6 +58,7 @@ class FontProduction extends StatelessWidget {
                 fontSize: 20,
                 fontStyle: FontStyle.normal),
           ),
+          child: Text("촬영"),
         ),
       ],
     );
