@@ -15,7 +15,7 @@ class _UseFontState extends State<UseFont> {
         SizedBox(height: 25),
         Center(
             child: Text(
-              '자신만의 폰트를 사용해보세요.',
+              "자신만의 폰트를 사용해보세요.",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -30,7 +30,7 @@ class _UseFontState extends State<UseFont> {
             // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
           ),
           child: Image.asset(
-            'assets/모란.JPG',
+            "assets/모란.JPG",
           ),
         ),
         SizedBox(height: 25),
@@ -44,7 +44,7 @@ class _UseFontState extends State<UseFont> {
                       filled: true,
                       fillColor: Colors.grey,
                       border: OutlineInputBorder(),
-                      // labelText: '적용할 글자를 입력하세요',
+                      // labelText: "적용할 글자를 입력하세요",
                     ))),
             SizedBox(height: 15),
             SizedBox(
@@ -55,7 +55,7 @@ class _UseFontState extends State<UseFont> {
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(
-                      fontFamily: 'milasiancirca',
+                      fontFamily: "milasiancirca",
                       color: Colors.white,
                       fontSize: 20,
                       fontStyle: FontStyle.normal),

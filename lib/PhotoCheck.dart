@@ -1,6 +1,9 @@
+import "dart:io";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-import "SelectFont.dart";
+import "PathProvider.dart";
+import "FontProduction.dart";
 
 class PhotoCheck extends StatefulWidget {
   const PhotoCheck({Key? key}) : super(key: key);
@@ -10,14 +13,17 @@ class PhotoCheck extends StatefulWidget {
 }
 
 class _PhotoCheckState extends State<PhotoCheck> {
+  late PathProvider _pathProvider;
+
   @override
   Widget build(BuildContext context) {
+    _pathProvider = Provider.of<PathProvider>(context);
     return Column(
       children: [
         SizedBox(height: 25),
         Center(
             child: Text(
-          '문장을 따라 작성한 후 촬영하세요',
+          "문장을 따라 작성한 후 촬영하세요",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -25,15 +31,26 @@ class _PhotoCheckState extends State<PhotoCheck> {
         )),
         SizedBox(height: 25),
         Container(
+          width: 350,
           height: 250,
-          width: 250,
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.blue),
-            // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
+            borderRadius: BorderRadius.circular(20),
           ),
-          child: Image.asset(
-            'assets/모란.JPG',
+          child:
+          AspectRatio(
+            aspectRatio: 1,
+            child: ClipRect(
+              child: Transform.scale(
+                scale: 3,
+                child: Center(
+                  child: Image.file(File(_pathProvider.imagePath)),
+                ),
+              ),
+            ),
           ),
+
         ),
         SizedBox(height: 25),
         Column(
@@ -42,21 +59,23 @@ class _PhotoCheckState extends State<PhotoCheck> {
               width: 200,
               height: 40,
               child: ElevatedButton(
-                child: Text("재촬영"),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => PhotoCheck()),
+                        builder: (_) => FontProduction()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(
-                      fontFamily: 'milasiancirca',
+                      fontFamily: "milasiancirca",
                       color: Colors.white,
                       fontSize: 20,
                       fontStyle: FontStyle.normal),
                 ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.add_a_photo), Text(" 재촬영")]),
               ),
             ),
             SizedBox(height: 15),
@@ -69,7 +88,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(
-                      fontFamily: 'milasiancirca',
+                      fontFamily: "milasiancirca",
                       color: Colors.white,
                       fontSize: 20,
                       fontStyle: FontStyle.normal),

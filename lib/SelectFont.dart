@@ -18,7 +18,7 @@ class _SelectFontState extends State<SelectFont> {
         SizedBox(height: 25),
         Center(
             child: Text(
-          '자신만의 폰트를 선택하세요',
+          "자신만의 폰트를 선택하세요",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class _SelectFontState extends State<SelectFont> {
             // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
           ),
           child: Image.asset(
-            'assets/모란.JPG',
+            "assets/모란.JPG",
           ),
         ),
         SizedBox(height: 10),
@@ -45,7 +45,7 @@ class _SelectFontState extends State<SelectFont> {
             // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
           ),
           child: Image.asset(
-            'assets/모란1.JPG',
+            "assets/모란1.JPG",
           ),
         ),
         SizedBox(height: 10),
@@ -57,7 +57,7 @@ class _SelectFontState extends State<SelectFont> {
             // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
           ),
           child: Image.asset(
-            'assets/모란2.JPG',
+            "assets/모란2.JPG",
           ),
         ),
         SizedBox(height: 25),
@@ -67,18 +67,20 @@ class _SelectFontState extends State<SelectFont> {
               width: 200,
               height: 40,
               child: ElevatedButton(
-                child: Text("재촬영"),
                 onPressed: () {
                   DefaultTabController.of(context)?.animateTo(0);
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(
-                      fontFamily: 'milasiancirca',
+                      fontFamily: "milasiancirca",
                       color: Colors.white,
                       fontSize: 20,
                       fontStyle: FontStyle.normal
                   ),
                 ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.add_a_photo), Text(" 재촬영")]),
               ),
             ),
             SizedBox(height: 15),
@@ -86,7 +88,6 @@ class _SelectFontState extends State<SelectFont> {
               width: 200,
               height: 40,
               child: ElevatedButton(
-                child: Text("사용하기"),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -95,11 +96,12 @@ class _SelectFontState extends State<SelectFont> {
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(
-                      fontFamily: 'milasiancirca',
+                      fontFamily: "milasiancirca",
                       color: Colors.white,
                       fontSize: 20,
                       fontStyle: FontStyle.normal),
                 ),
+                child: Text("사용하기"),
               ),
             ),
           ],
