@@ -18,6 +18,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
   @override
   Widget build(BuildContext context) {
     _pathProvider = Provider.of<PathProvider>(context);
+
     return Column(
       children: [
         SizedBox(height: 25),
@@ -42,7 +43,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
             aspectRatio: 1,
             child: ClipRect(
               child: Transform.scale(
-                scale: 3,
+                scale: 2.5,
                 child: Center(
                   child: Image.file(File(_pathProvider.imagePath)),
                 ),

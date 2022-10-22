@@ -1,5 +1,8 @@
+import "dart:io";
 import "package:flutter/material.dart";
 
+import "package:image/image.dart" hide Image, Color;
+import 'package:path_provider/path_provider.dart';
 import "package:camera/camera.dart";
 import "package:provider/provider.dart";
 import "PathProvider.dart";
@@ -47,7 +50,7 @@ class _FontProductionState extends State<FontProduction> {
       }
     }
     _cameraController = CameraController(
-        backCamera, ResolutionPreset.high // 가장 높은 해상도의 기능을 쓸 수 있도록 합니다.
+        backCamera, ResolutionPreset.veryHigh // 가장 높은 해상도의 기능을 쓸 수 있도록 합니다.
         );
     _cameraController.initialize().then((value) {
       // 카메라 준비가 끝나면 카메라 미리보기를 보여주기 위해 앱 화면을 다시 그립니다.
@@ -68,7 +71,7 @@ class _FontProductionState extends State<FontProduction> {
               aspectRatio: 1,
               child: ClipRect(
                 child: Transform.scale(
-                  scale: 3,
+                  scale: 2.5,
                   child: Center(
                     child: CameraPreview(_cameraController),
                   ),
@@ -120,6 +123,15 @@ class _FontProductionState extends State<FontProduction> {
             try {
               final image = await _cameraController.takePicture();
               _pathProvider.setImagePath(image.path);
+
+              // 이미지 크롭
+              File("${(await getTemporaryDirectory()).path}/crop.png").writeAsBytesSync(encodePng(copyCrop(
+                  decodeJpg(File(_pathProvider.imagePath).readAsBytesSync())!,
+                  0,
+                  580,
+                  1080,
+                  770)));
+
               if (!mounted) return;
 
               await Navigator.of(context).push(

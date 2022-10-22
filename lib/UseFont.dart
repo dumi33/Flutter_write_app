@@ -52,7 +52,6 @@ class _UseFontState extends State<UseFont> {
               width: 250,
               height: 40,
               child: ElevatedButton(
-                child: Text("다운로드"),
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(
@@ -61,6 +60,7 @@ class _UseFontState extends State<UseFont> {
                       fontSize: 20,
                       fontStyle: FontStyle.normal),
                 ),
+                child: Text("다운로드"),
               ),
             ),
           ],
