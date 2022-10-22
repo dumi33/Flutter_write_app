@@ -40,10 +40,15 @@ class _TabPageState extends State<TabPage> {
                 centerTitle: true,
                 bottom: PreferredSize(
                     preferredSize: Size.fromHeight(50),
-                    child: DecoratedBox( // 탭 밑줄 추가하기 위한 코드
-                      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 2, color: Colors.grey))),
+                    child: DecoratedBox(
+                      // 탭 밑줄 추가하기 위한 코드
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(width: 2, color: Colors.grey))),
                       child: TabBar(
-                        onTap: (index) { // 탭을 터치했을 때 무반응으로 만들기 위한 코드
+                        onTap: (index) {
+                          // 탭을 터치했을 때 무반응으로 만들기 위한 코드
                           if (DefaultTabController.of(context)!
                               .indexIsChanging) {
                             DefaultTabController.of(context)!.index =

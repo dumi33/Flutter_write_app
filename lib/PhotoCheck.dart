@@ -38,8 +38,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
             border: Border.all(width: 2, color: Colors.blue),
             borderRadius: BorderRadius.circular(20),
           ),
-          child:
-          AspectRatio(
+          child: AspectRatio(
             aspectRatio: 1,
             child: ClipRect(
               child: Transform.scale(
@@ -50,7 +49,6 @@ class _PhotoCheckState extends State<PhotoCheck> {
               ),
             ),
           ),
-
         ),
         SizedBox(height: 25),
         Column(
@@ -62,8 +60,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (_) => FontProduction()),
+                    MaterialPageRoute(builder: (_) => FontProduction()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 
-import "PhotoCheck.dart";
 import "UseFont.dart";
 
 class SelectFont extends StatefulWidget {
@@ -30,8 +29,9 @@ class _SelectFontState extends State<SelectFont> {
           width: 250,
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.blue),
-            // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
+            borderRadius: BorderRadius.circular(20),
           ),
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: Image.asset(
             "assets/모란.JPG",
           ),
@@ -42,8 +42,9 @@ class _SelectFontState extends State<SelectFont> {
           width: 250,
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.blue),
-            // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
+            borderRadius: BorderRadius.circular(20),
           ),
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: Image.asset(
             "assets/모란1.JPG",
           ),
@@ -54,8 +55,9 @@ class _SelectFontState extends State<SelectFont> {
           width: 250,
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.blue),
-            // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
+            borderRadius: BorderRadius.circular(20),
           ),
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: Image.asset(
             "assets/모란2.JPG",
           ),
@@ -75,8 +77,7 @@ class _SelectFontState extends State<SelectFont> {
                       fontFamily: "milasiancirca",
                       color: Colors.white,
                       fontSize: 20,
-                      fontStyle: FontStyle.normal
-                  ),
+                      fontStyle: FontStyle.normal),
                 ),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -15,20 +15,21 @@ class _UseFontState extends State<UseFont> {
         SizedBox(height: 25),
         Center(
             child: Text(
-              "자신만의 폰트를 사용해보세요.",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
+          "자신만의 폰트를 사용해보세요.",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        )),
         SizedBox(height: 25),
         Container(
           height: 100,
           width: 250,
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.blue),
-            // borderRadius: BorderRadius.circular(20), //<-- SEE HERE
+            borderRadius: BorderRadius.circular(20),
           ),
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: Image.asset(
             "assets/모란.JPG",
           ),
@@ -41,11 +42,11 @@ class _UseFontState extends State<UseFont> {
                 height: 40,
                 child: TextField(
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey,
-                      border: OutlineInputBorder(),
-                      // labelText: "적용할 글자를 입력하세요",
-                    ))),
+                  filled: true,
+                  fillColor: Colors.grey,
+                  border: OutlineInputBorder(),
+                  // labelText: "적용할 글자를 입력하세요",
+                ))),
             SizedBox(height: 15),
             SizedBox(
               width: 250,
