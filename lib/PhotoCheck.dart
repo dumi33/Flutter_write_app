@@ -1,7 +1,9 @@
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import 'package:http/http.dart' as http;
 
+import "IDProvider.dart";
 import "PathProvider.dart";
 import "FontProduction.dart";
 
@@ -14,10 +16,12 @@ class PhotoCheck extends StatefulWidget {
 
 class _PhotoCheckState extends State<PhotoCheck> {
   late PathProvider _pathProvider;
+  late IDProvider _idProvider;
 
   @override
   Widget build(BuildContext context) {
     _pathProvider = Provider.of<PathProvider>(context);
+    _idProvider = Provider.of<IDProvider>(context);
 
     return Column(
       children: [
@@ -82,6 +86,14 @@ class _PhotoCheckState extends State<PhotoCheck> {
               height: 40,
               child: ElevatedButton(
                 onPressed: () {
+                  var url = Uri.https('example.com', 'whatsit/create');
+                  var response = await http.post(url, body: {'name': 'doodle', 'color': 'blue'});
+                  print('Response status: ${response.statusCode}');
+                  print('Response body: ${response.body}');
+
+                  print(await http.read(Uri.https("http://211.44.188.100:8080/FontTest/imageInput.jsp", 'foobar.txt')));
+                  _idProvider.androidId;
+
                   DefaultTabController.of(context)?.animateTo(1);
                 },
                 style: ElevatedButton.styleFrom(
