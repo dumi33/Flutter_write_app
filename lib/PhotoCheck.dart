@@ -15,13 +15,12 @@ class PhotoCheck extends StatefulWidget {
 }
 
 class _PhotoCheckState extends State<PhotoCheck> {
-  late PathProvider _pathProvider;
   late IDProvider _idProvider;
-
+  late PathProvider _pathProvider;
   @override
   Widget build(BuildContext context) {
-    _pathProvider = Provider.of<PathProvider>(context);
     _idProvider = Provider.of<IDProvider>(context);
+    _pathProvider = Provider.of<PathProvider>(context);
 
     return Column(
       children: [
@@ -85,16 +84,26 @@ class _PhotoCheckState extends State<PhotoCheck> {
               width: 200,
               height: 40,
               child: ElevatedButton(
-                onPressed: () {
-                  var url = Uri.https('example.com', 'whatsit/create');
-                  var response = await http.post(url, body: {'name': 'doodle', 'color': 'blue'});
-                  print('Response status: ${response.statusCode}');
-                  print('Response body: ${response.body}');
+                onPressed: () async {
+                  try {
 
-                  print(await http.read(Uri.https("http://211.44.188.100:8080/FontTest/imageInput.jsp", 'foobar.txt')));
-                  _idProvider.androidId;
+                    final url = Uri.parse("http://211.44.188.100:8080/FontTest/imageInput.jsp");
+                    final queryParameters = {
+                      "id": _idProvider.androidId,
+                      "image": File(_pathProvider.imagePath).readAsBytesSync(),
+                    };
+                    final response = await http
+                        .post(url);
 
-                  DefaultTabController.of(context)?.animateTo(1);
+                    print('Response status: ${response.statusCode}');
+                    print('Response body: ${response.body}');
+
+                    if (!mounted) return;
+
+                    DefaultTabController.of(context)?.animateTo(1);
+                  } catch (e) {
+                    print(e);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(

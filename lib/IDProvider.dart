@@ -17,5 +17,7 @@ class IDProvider extends ChangeNotifier {
     }
 
     _androidId = androidId;
+
+    notifyListeners();
   }
 }

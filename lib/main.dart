@@ -2,7 +2,9 @@ import "package:flutter/material.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
 import "package:flutter/services.dart";
 import "package:provider/provider.dart";
+
 import "PathProvider.dart";
+import "IDProvider.dart";
 
 import "TabPage.dart";
 
@@ -23,11 +25,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove(); // 스플래시 이미지 제거
     return MaterialApp(
-        title: "Hand Writing",
-        debugShowCheckedModeBanner: false,
-        home: ChangeNotifierProvider(
-          create: (_) => PathProvider(),
-          child: TabPage(),
-        ));
+      title: "Hand Writing",
+      debugShowCheckedModeBanner: false,
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => PathProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => IDProvider(),
+          ),
+        ],
+        child: TabPage(),
+      ),
+    );
   }
 }
