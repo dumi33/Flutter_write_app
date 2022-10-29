@@ -1,7 +1,8 @@
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 import "IDProvider.dart";
 import "PathProvider.dart";
@@ -86,18 +87,26 @@ class _PhotoCheckState extends State<PhotoCheck> {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
+                    await _idProvider.setAndroidId();
 
-                    final url = Uri.parse("http://211.44.188.100:8080/FontTest/imageInput.jsp");
-                    final queryParameters = {
-                      "id": _idProvider.androidId,
-                      "image": File(_pathProvider.imagePath).readAsBytesSync(),
-                    };
-                    final response = await http
-                        .post(url);
+                    final dio = Dio();
+                    dio.options.baseUrl = "http://211.44.188.100:8080";
+                    dio.options.connectTimeout = 5000; //5s
+                    dio.options.receiveTimeout = 3000;
 
-                    print('Response status: ${response.statusCode}');
-                    print('Response body: ${response.body}');
+                    final imageBytes = await File(_pathProvider.imagePath).readAsBytes();
+                    final base64Image = base64Encode(imageBytes);
+                    final formData = FormData.fromMap({
+                      "id" : _idProvider.androidId,
+                      "image" : base64Image,
+                    });
 
+                    final response = await dio.post(
+                      "/FontTest/imageInput.jsp",
+                      data: formData
+                    );
+
+                    print(response.data);
                     if (!mounted) return;
 
                     DefaultTabController.of(context)?.animateTo(1);

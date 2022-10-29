@@ -44,6 +44,7 @@ dependencies:
   image: ^3.2.2
   android_id: ^0.1.1+1
   http: ^0.13.5
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
