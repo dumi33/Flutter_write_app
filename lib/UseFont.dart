@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import "SelectFont.dart";
+
 class UseFont extends StatefulWidget {
   const UseFont({super.key});
 
@@ -61,6 +63,27 @@ class _UseFontState extends State<UseFont> {
                       fontStyle: FontStyle.normal),
                 ),
                 child: Text("다운로드"),
+              ),
+            ),
+            SizedBox(height: 15),
+            SizedBox(
+              width: 250,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => (SelectFont())),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  textStyle: const TextStyle(
+                      fontFamily: "milasiancirca",
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal),
+                ),
+                child: Text("폰트 다시 선택"),
               ),
             ),
           ],

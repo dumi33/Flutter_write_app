@@ -1,7 +1,7 @@
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import "IDProvider.dart";
@@ -18,6 +18,7 @@ class PhotoCheck extends StatefulWidget {
 class _PhotoCheckState extends State<PhotoCheck> {
   late IDProvider _idProvider;
   late PathProvider _pathProvider;
+
   @override
   Widget build(BuildContext context) {
     _idProvider = Provider.of<IDProvider>(context);
@@ -89,24 +90,24 @@ class _PhotoCheckState extends State<PhotoCheck> {
                   try {
                     await _idProvider.setAndroidId();
 
-                    final dio = Dio();
-                    dio.options.baseUrl = "http://211.44.188.100:8080";
-                    dio.options.connectTimeout = 5000; //5s
-                    dio.options.receiveTimeout = 3000;
-
-                    final imageBytes = await File(_pathProvider.imagePath).readAsBytes();
+                    final imageBytes = File(_pathProvider.imagePath).readAsBytesSync();
                     final base64Image = base64Encode(imageBytes);
-                    final formData = FormData.fromMap({
-                      "id" : _idProvider.androidId,
-                      "image" : base64Image,
-                    });
 
-                    final response = await dio.post(
-                      "/FontTest/imageInput.jsp",
-                      data: formData
+                    final url = Uri.http("211.44.188.100:8080", "/FontTest/imageInput");
+
+                    http.Response response = await http.post(
+                      url,
+                      headers: <String, String>{
+                        "Content-Type": "application/x-www-form-urlencoded",
+                      },
+                      body: <String, String>{
+                        "id": _idProvider.androidId,
+                        "image": base64Image,
+                      },
                     );
 
-                    print(response.data);
+                    print(response.body);
+
                     if (!mounted) return;
 
                     DefaultTabController.of(context)?.animateTo(1);
