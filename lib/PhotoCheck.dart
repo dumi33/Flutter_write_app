@@ -2,6 +2,7 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import 'package:http/http.dart' as http;
+import 'package:write_app/URLProvider.dart';
 import 'dart:convert';
 
 import "IDProvider.dart";
@@ -18,11 +19,13 @@ class PhotoCheck extends StatefulWidget {
 class _PhotoCheckState extends State<PhotoCheck> {
   late IDProvider _idProvider;
   late PathProvider _pathProvider;
+  late URLProvider _urlProvider;
 
   @override
   Widget build(BuildContext context) {
     _idProvider = Provider.of<IDProvider>(context);
     _pathProvider = Provider.of<PathProvider>(context);
+    _urlProvider = Provider.of<URLProvider>(context);
 
     return Column(
       children: [
@@ -93,7 +96,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
                     final imageBytes = File(_pathProvider.imagePath).readAsBytesSync();
                     final base64Image = base64Encode(imageBytes);
 
-                    final url = Uri.http("211.44.188.100:8080", "/FontTest/imageInput");
+                    final url = Uri.http(_urlProvider.url, "/FontTest/imageInput");
 
                     http.Response response = await http.post(
                       url,
