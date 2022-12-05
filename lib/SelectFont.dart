@@ -1,6 +1,9 @@
+import "dart:io";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 import "UseFont.dart";
+import "PathProvider.dart";
 
 class SelectFont extends StatefulWidget {
   const SelectFont({Key? key}) : super(key: key);
@@ -10,8 +13,14 @@ class SelectFont extends StatefulWidget {
 }
 
 class _SelectFontState extends State<SelectFont> {
+  late PathProvider _pathProvider;
+  List<bool> toggleList = List.generate(3, (index) => false);
+
+
   @override
   Widget build(BuildContext context) {
+    _pathProvider = Provider.of<PathProvider>(context);
+
     return Column(
       children: [
         SizedBox(height: 25),
@@ -24,42 +33,63 @@ class _SelectFontState extends State<SelectFont> {
           ),
         )),
         SizedBox(height: 25),
-        Container(
-          height: 100,
-          width: 250,
-          decoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.blue),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-          child: Image.asset(
-            "assets/모란.JPG",
-          ),
-        ),
-        SizedBox(height: 10),
-        Container(
-          height: 100,
-          width: 250,
-          decoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.blue),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-          child: Image.asset(
-            "assets/모란1.JPG",
+        InkWell(
+          onTap: () {
+            setState(() {
+              toggleList[0] = !toggleList[0];
+              toggleList[1] = false;
+              toggleList[2] = false;
+            });
+          },
+          child: Container(
+            height: 150,
+            width: 250,
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: toggleList[0] ? Colors.red : Colors.blue ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: Image.file(File("${_pathProvider.temporaryDirectory}/fontImage0.png"))
           ),
         ),
         SizedBox(height: 10),
-        Container(
-          height: 100,
-          width: 250,
-          decoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.blue),
-            borderRadius: BorderRadius.circular(20),
+        InkWell(
+          onTap: () {
+            setState(() {
+              toggleList[0] = false;
+              toggleList[1] = !toggleList[1];
+              toggleList[2] = false;
+            });
+          },
+          child: Container(
+            height: 150,
+            width: 250,
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: toggleList[1] ? Colors.red : Colors.blue),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+              child: Image.file(File("${_pathProvider.temporaryDirectory}/fontImage1.png"))
           ),
-          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-          child: Image.asset(
-            "assets/모란2.JPG",
+        ),
+        SizedBox(height: 10),
+        InkWell(
+          onTap: () {
+            setState(() {
+              toggleList[0] = false;
+              toggleList[1] = false;
+              toggleList[2] = !toggleList[2];
+            });
+          },
+          child: Container(
+            height: 150,
+            width: 250,
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: toggleList[2] ? Colors.red : Colors.blue),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+              child: Image.file(File("${_pathProvider.temporaryDirectory}/fontImage2.png"))
           ),
         ),
         SizedBox(height: 25),

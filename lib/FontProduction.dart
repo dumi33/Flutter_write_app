@@ -122,10 +122,11 @@ class _FontProductionState extends State<FontProduction> {
             // 대응할 수 있습니다.
             try {
               final image = await _cameraController.takePicture();
+              _pathProvider.setTemporaryDirectory((await getTemporaryDirectory()).path);
               _pathProvider.setImagePath(image.path);
 
               // 이미지 크롭
-              File("${(await getTemporaryDirectory()).path}/crop.png").writeAsBytesSync(encodePng(copyCrop(
+              File("${_pathProvider.temporaryDirectory}/crop.png").writeAsBytesSync(encodePng(copyCrop(
                   decodeJpg(File(_pathProvider.imagePath).readAsBytesSync())!,
                   0,
                   580,

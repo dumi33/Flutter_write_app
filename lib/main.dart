@@ -5,6 +5,8 @@ import "package:provider/provider.dart";
 
 import "PathProvider.dart";
 import "IDProvider.dart";
+import "URLProvider.dart";
+import "FontImageProvider.dart";
 
 import "TabPage.dart";
 
@@ -34,6 +36,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (_) => IDProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => URLProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => FontImageProvider(),
           ),
         ],
         child: TabPage(),

@@ -1,12 +1,14 @@
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import 'package:http/http.dart' as http;
-import 'package:write_app/URLProvider.dart';
-import 'dart:convert';
+import "package:http/http.dart" as http;
+import "dart:convert";
 
 import "IDProvider.dart";
 import "PathProvider.dart";
+import "URLProvider.dart";
+import "FontImageProvider.dart";
+
 import "FontProduction.dart";
 
 class PhotoCheck extends StatefulWidget {
@@ -20,12 +22,14 @@ class _PhotoCheckState extends State<PhotoCheck> {
   late IDProvider _idProvider;
   late PathProvider _pathProvider;
   late URLProvider _urlProvider;
+  late FontImageProvider _fontImageProvider;
 
   @override
   Widget build(BuildContext context) {
     _idProvider = Provider.of<IDProvider>(context);
     _pathProvider = Provider.of<PathProvider>(context);
     _urlProvider = Provider.of<URLProvider>(context);
+    _fontImageProvider = Provider.of<FontImageProvider>(context);
 
     return Column(
       children: [
@@ -93,11 +97,12 @@ class _PhotoCheckState extends State<PhotoCheck> {
                   try {
                     await _idProvider.setAndroidId();
 
-                    final imageBytes = File(_pathProvider.imagePath).readAsBytesSync();
+                    final imageBytes =
+                        File(_pathProvider.imagePath).readAsBytesSync();
                     final base64Image = base64Encode(imageBytes);
 
-                    final url = Uri.http(_urlProvider.url, "/FontTest/imageInput");
-
+                    Uri url =
+                        Uri.http(_urlProvider.url, "/FontTest/imageInput");
                     http.Response response = await http.post(
                       url,
                       headers: <String, String>{
@@ -110,6 +115,11 @@ class _PhotoCheckState extends State<PhotoCheck> {
                     );
 
                     print(response.body);
+
+                    await _fontImageProvider.setFontImages(
+                        Uri.http(_urlProvider.url, "/FontTest/useFont"),
+                        _idProvider.androidId,
+                        _pathProvider.temporaryDirectory);
 
                     if (!mounted) return;
 
