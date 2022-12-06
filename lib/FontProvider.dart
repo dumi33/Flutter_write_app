@@ -74,6 +74,7 @@ class FontProvider extends ChangeNotifier {
   }
 
   setFontFile(androidId, index, dir) async {
+    Fluttertoast.showToast(msg: "폰트 파일 다운로드를 시작합니다.\n약간의 시간이 걸릴 수 있습니다.");
     //externalDirectory = findRoot(await getApplicationDocumentsDirectory());
     externalDirectory = Directory("/storage/emulated/0/Download");
 
