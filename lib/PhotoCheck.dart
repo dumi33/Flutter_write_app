@@ -1,13 +1,13 @@
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import "package:http/http.dart" as http;
+import "package:dio/dio.dart";
 import "dart:convert";
 
 import "IDProvider.dart";
 import "PathProvider.dart";
 import "URLProvider.dart";
-import "FontImageProvider.dart";
+import "FontProvider.dart";
 
 import "FontProduction.dart";
 
@@ -22,14 +22,14 @@ class _PhotoCheckState extends State<PhotoCheck> {
   late IDProvider _idProvider;
   late PathProvider _pathProvider;
   late URLProvider _urlProvider;
-  late FontImageProvider _fontImageProvider;
+  late FontProvider _fontProvider;
 
   @override
   Widget build(BuildContext context) {
     _idProvider = Provider.of<IDProvider>(context);
     _pathProvider = Provider.of<PathProvider>(context);
     _urlProvider = Provider.of<URLProvider>(context);
-    _fontImageProvider = Provider.of<FontImageProvider>(context);
+    _fontProvider = Provider.of<FontProvider>(context);
 
     return Column(
       children: [
@@ -101,25 +101,19 @@ class _PhotoCheckState extends State<PhotoCheck> {
                         File(_pathProvider.imagePath).readAsBytesSync();
                     final base64Image = base64Encode(imageBytes);
 
-                    Uri url =
-                        Uri.http(_urlProvider.url, "/FontTest/imageInput");
-                    http.Response response = await http.post(
-                      url,
-                      headers: <String, String>{
-                        "Content-Type": "application/x-www-form-urlencoded",
-                      },
-                      body: <String, String>{
-                        "id": _idProvider.androidId,
-                        "image": base64Image,
-                      },
-                    );
+                    var dio = Dio();
+                    dio.options.baseUrl = _urlProvider.url;
+                    dio.options.connectTimeout = 5000; //5s
+                    dio.options.receiveTimeout = 3000;
+                    dio.options.contentType = Headers.formUrlEncodedContentType;
 
-                    print(response.body);
+                    await dio.post("/FontTest/imageInput", data: {
+                      "id": _idProvider.androidId,
+                      "image": base64Image,
+                    });
 
-                    await _fontImageProvider.setFontImages(
-                        Uri.http(_urlProvider.url, "/FontTest/useFont"),
-                        _idProvider.androidId,
-                        _pathProvider.temporaryDirectory);
+                    await _fontProvider.setFontImages(
+                        _idProvider.androidId);
 
                     if (!mounted) return;
 

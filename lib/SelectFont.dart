@@ -1,9 +1,9 @@
-import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
 import "UseFont.dart";
-import "PathProvider.dart";
+import "IDProvider.dart";
+import "FontProvider.dart";
 
 class SelectFont extends StatefulWidget {
   const SelectFont({Key? key}) : super(key: key);
@@ -13,13 +13,16 @@ class SelectFont extends StatefulWidget {
 }
 
 class _SelectFontState extends State<SelectFont> {
-  late PathProvider _pathProvider;
+  late IDProvider _idProvider;
+  late FontProvider _fontProvider;
   List<bool> toggleList = List.generate(3, (index) => false);
 
 
   @override
   Widget build(BuildContext context) {
-    _pathProvider = Provider.of<PathProvider>(context);
+    _idProvider = Provider.of<IDProvider>(context);
+    _fontProvider = Provider.of<FontProvider>(context);
+    int index = 0;
 
     return Column(
       children: [
@@ -49,7 +52,7 @@ class _SelectFontState extends State<SelectFont> {
               borderRadius: BorderRadius.circular(20),
             ),
             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: Image.file(File("${_pathProvider.temporaryDirectory}/fontImage0.png"))
+            child: Image.memory(_fontProvider.fontImages[0]),
           ),
         ),
         SizedBox(height: 10),
@@ -69,7 +72,7 @@ class _SelectFontState extends State<SelectFont> {
               borderRadius: BorderRadius.circular(20),
             ),
             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: Image.file(File("${_pathProvider.temporaryDirectory}/fontImage1.png"))
+              child: Image.memory(_fontProvider.fontImages[1]),
           ),
         ),
         SizedBox(height: 10),
@@ -89,7 +92,7 @@ class _SelectFontState extends State<SelectFont> {
               borderRadius: BorderRadius.circular(20),
             ),
             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: Image.file(File("${_pathProvider.temporaryDirectory}/fontImage2.png"))
+              child: Image.memory(_fontProvider.fontImages[2]),
           ),
         ),
         SizedBox(height: 25),
@@ -119,10 +122,23 @@ class _SelectFontState extends State<SelectFont> {
               width: 200,
               height: 40,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  for (int i = 0; i < 3; ++i) {
+                    if (toggleList[i]) {
+                      index = i;
+                    }
+                  }
+
+                  await _fontProvider.setGenByInput(
+                      _idProvider.androidId,
+                      index,
+                      "'모란이 피기까지는'");
+
+                  if (!mounted) return;
+
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => (UseFont())),
+                    MaterialPageRoute(builder: (_) => (UseFont(index: index))),
                   );
                 },
                 style: ElevatedButton.styleFrom(

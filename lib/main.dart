@@ -6,7 +6,7 @@ import "package:provider/provider.dart";
 import "PathProvider.dart";
 import "IDProvider.dart";
 import "URLProvider.dart";
-import "FontImageProvider.dart";
+import "FontProvider.dart";
 
 import "TabPage.dart";
 
@@ -17,6 +17,7 @@ void main() {
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(MyApp());
 }
 
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
             create: (_) => URLProvider(),
           ),
           ChangeNotifierProvider(
-            create: (_) => FontImageProvider(),
+            create: (_) => FontProvider(),
           ),
         ],
         child: TabPage(),
