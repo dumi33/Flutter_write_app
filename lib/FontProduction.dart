@@ -1,10 +1,14 @@
+import 'dart:convert';
 import "dart:io";
+import 'dart:typed_data';
 import "package:flutter/material.dart";
 
 import "package:image/image.dart" hide Image, Color;
 import "package:path_provider/path_provider.dart";
 import "package:camera/camera.dart";
 import "package:provider/provider.dart";
+import "package:dio/dio.dart";
+import "package:fluttertoast/fluttertoast.dart";
 
 import "PathProvider.dart";
 import "PhotoCheck.dart";
@@ -62,8 +66,8 @@ class _FontProductionState extends State<FontProduction> {
   preview() {
     return _cameraInitialized
         ? Container(
-            width: 350,
-            height: 250,
+            width: 250,
+            height: 350,
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.blue),
@@ -100,18 +104,64 @@ class _FontProductionState extends State<FontProduction> {
             fontWeight: FontWeight.bold,
           ),
         )),
-        Center(child: Text("문장을 따라 작성한 후 사진을 찍으면 폰트가 형성됩니다.")),
+        Center(
+            child: Text("아래의 글씨 틀을 눌러 다운받아, 따라 작성한 후\n사진을 찍으면 나만의 폰트가 만들어집니다.",
+                textAlign: TextAlign.center)),
         SizedBox(height: 25),
-        Container(
-          height: 150,
-          width: 350,
-          decoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.blue),
-            borderRadius: BorderRadius.circular(20),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            side: BorderSide(color: Colors.blue, width: 2),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            minimumSize: Size(150, 100),
+            maximumSize: Size(150, 100),
           ),
-          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          onPressed: () {
+            showDialog(
+                context: context,
+                barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Image.asset(
+                      "assets/font frame.png",
+                    ),
+                    actions: [
+                      TextButton(
+                        child: const Text("다운로드"),
+                        onPressed: () async {
+                          final options = BaseOptions(
+                            baseUrl: "http://211.44.188.100:8080",
+                            connectTimeout: 5000, //5s
+                            receiveTimeout: 3000,
+                            contentType: Headers.formUrlEncodedContentType,
+                          );
+                          final dio = Dio(options);
+
+                          Response response = await dio.post(
+                            "/FontTest/downloadFontFrame",
+                            options: Options(sendTimeout: 30000, receiveTimeout: 30000),
+                          );
+
+                          Uint8List fontFrame = base64Decode(response.data);
+                          File file = await File("${_pathProvider.temporaryDirectory}/font frame.png").create();
+                          file.writeAsBytesSync(fontFrame);
+                          File("${_pathProvider.temporaryDirectory}/font frame.png").copySync("/storage/emulated/0/Download/font frame.png");
+                          Fluttertoast.showToast(msg: "글씨 틀 다운로드가 완료되었습니다.\n다운로드 폴더를 확인해보세요.");
+                        },
+                      ),
+                      TextButton(
+                        child: const Text("확인"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                });
+          },
           child: Image.asset(
-            "assets/모란.JPG",
+            "assets/font frame.png",
           ),
         ),
         SizedBox(height: 25),
@@ -123,16 +173,19 @@ class _FontProductionState extends State<FontProduction> {
             // 대응할 수 있습니다.
             try {
               final image = await _cameraController.takePicture();
-              _pathProvider.setTemporaryDirectory((await getTemporaryDirectory()).path);
+              _pathProvider
+                  .setTemporaryDirectory((await getTemporaryDirectory()).path);
               _pathProvider.setImagePath(image.path);
 
               // 이미지 크롭
-              File("${_pathProvider.temporaryDirectory}/crop.png").writeAsBytesSync(encodePng(copyCrop(
-                  decodeJpg(File(_pathProvider.imagePath).readAsBytesSync())!,
-                  0,
-                  580,
-                  1080,
-                  770)));
+              File("${_pathProvider.temporaryDirectory}/crop.jpg")
+                  .writeAsBytesSync(encodeJpg(copyCrop(
+                      decodeJpg(
+                          File(_pathProvider.imagePath).readAsBytesSync())!,
+                      280,
+                      580,
+                      520,
+                      770)));
 
               if (!mounted) return;
 

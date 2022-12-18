@@ -3,7 +3,6 @@ import "dart:typed_data";
 import "dart:convert";
 
 import "package:flutter/material.dart";
-import "package:path_provider/path_provider.dart";
 import "package:dio/dio.dart";
 import "package:image/image.dart" hide Image, Color;
 import "package:fluttertoast/fluttertoast.dart";
@@ -45,11 +44,11 @@ class FontProvider extends ChangeNotifier {
       Response response = await dio.post("/FontTest/useFont", data: {
         "id": androidId,
         "index": "${i + 1}",
-        "text": "'모란이 피기까지는'",
+        "text": "'모란이 피기까지는\n나는 아직 나의 봄을 기다리고 있을테요\n모란이 뚝뚝 떨어져버린 날\n나는 비로소 봄을 여읜 설움에 잠길테요'",
       });
 
       _fontImages[i] = encodePng(
-              copyCrop(decodePng(base64Decode(response.data))!, 0, 0, 200, 150))
+              copyCrop(decodePng(base64Decode(response.data))!, 0, 0, 370, 100))
           as Uint8List;
 
       notifyListeners();
@@ -67,7 +66,7 @@ class FontProvider extends ChangeNotifier {
     );
 
     _genByInput = encodePng(
-            copyCrop(decodePng(base64Decode(response.data))!, 0, 0, 200, 50))
+            copyCrop(decodePng(base64Decode(response.data))!, 0, 0, 370, 100))
         as Uint8List;
 
     notifyListeners();
@@ -76,9 +75,8 @@ class FontProvider extends ChangeNotifier {
   setFontFile(androidId, index, dir) async {
     Fluttertoast.showToast(msg: "폰트 파일 다운로드를 시작합니다.\n약간의 시간이 걸릴 수 있습니다.");
     //externalDirectory = findRoot(await getApplicationDocumentsDirectory());
-    externalDirectory = Directory("/storage/emulated/0/Download");
 
-    Response response = await dio.download(
+    await dio.download(
       "/FontTest/downloadFont?id=$androidId&index=${index + 1}",
       "$dir/myFont.ttf",
       options: Options(sendTimeout: 30000, receiveTimeout: 30000),
@@ -87,7 +85,6 @@ class FontProvider extends ChangeNotifier {
     File("$dir/myFont.ttf").copySync("/storage/emulated/0/Download/myFont.ttf");
     Fluttertoast.showToast(msg: "폰트 파일 다운로드가 완료되었습니다.\n다운로드 폴더를 확인해보세요.");
 
-    //_fontFile = "$externalDirectory/myFont.ttf";
     notifyListeners();
   }
 }

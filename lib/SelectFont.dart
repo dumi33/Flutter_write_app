@@ -45,8 +45,8 @@ class _SelectFontState extends State<SelectFont> {
             });
           },
           child: Container(
-            height: 150,
-            width: 250,
+            height: 120,
+            width: 300,
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: toggleList[0] ? Colors.red : Colors.blue ),
               borderRadius: BorderRadius.circular(20),
@@ -65,8 +65,8 @@ class _SelectFontState extends State<SelectFont> {
             });
           },
           child: Container(
-            height: 150,
-            width: 250,
+            height: 120,
+            width: 300,
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: toggleList[1] ? Colors.red : Colors.blue),
               borderRadius: BorderRadius.circular(20),
@@ -85,8 +85,8 @@ class _SelectFontState extends State<SelectFont> {
             });
           },
           child: Container(
-            height: 150,
-            width: 250,
+            height: 120,
+            width: 300,
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: toggleList[2] ? Colors.red : Colors.blue),
               borderRadius: BorderRadius.circular(20),

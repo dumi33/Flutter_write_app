@@ -36,7 +36,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
         SizedBox(height: 25),
         Center(
             child: Text(
-          "문장을 따라 작성한 후 촬영하세요",
+          "틀을 따라 작성한 후 촬영하세요",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -44,8 +44,8 @@ class _PhotoCheckState extends State<PhotoCheck> {
         )),
         SizedBox(height: 25),
         Container(
-          width: 350,
-          height: 250,
+          width: 250,
+          height: 350,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.blue),

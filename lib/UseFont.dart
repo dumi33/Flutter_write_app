@@ -41,8 +41,8 @@ class _UseFontState extends State<UseFont> {
           )),
           SizedBox(height: 25),
           Container(
-            height: 100,
-            width: 250,
+            height: 150,
+            width: 300,
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: Colors.blue),
               borderRadius: BorderRadius.circular(20),
