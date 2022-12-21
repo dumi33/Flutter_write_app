@@ -5,6 +5,7 @@ import "package:flutter/material.dart";
 
 import "package:document_scanner_flutter/document_scanner_flutter.dart";
 import "package:document_scanner_flutter/configs/configs.dart";
+import 'package:path_provider/path_provider.dart';
 import "package:provider/provider.dart";
 import "package:dio/dio.dart";
 import "package:fluttertoast/fluttertoast.dart";
@@ -26,7 +27,7 @@ class _FontProductionState extends State<FontProduction> {
 
   openImageScanner(BuildContext context) async {
     var image = await DocumentScannerFlutter.launch(context,
-        //source: ScannerFileSource.CAMERA,
+        source: ScannerFileSource.CAMERA,
         labelsConfig: {
           ScannerLabelsConfig.ANDROID_NEXT_BUTTON_LABEL: "다음",
           ScannerLabelsConfig.ANDROID_SAVE_BUTTON_LABEL: "저장",
@@ -41,6 +42,7 @@ class _FontProductionState extends State<FontProduction> {
   @override
   build(BuildContext context) {
     _pathProvider = Provider.of<PathProvider>(context);
+
     return Column(
       children: [
         SizedBox(height: 25),
@@ -79,6 +81,8 @@ class _FontProductionState extends State<FontProduction> {
                       TextButton(
                         child: const Text("다운로드"),
                         onPressed: () async {
+                          _pathProvider.setTemporaryDirectory((await getTemporaryDirectory()).path);
+
                           final options = BaseOptions(
                             baseUrl: "http://211.44.188.100:8080",
                             connectTimeout: 5000, //5s
@@ -123,8 +127,7 @@ class _FontProductionState extends State<FontProduction> {
         ElevatedButton(
           onPressed: () async {
             await openImageScanner(context);
-
-
+            _pathProvider.setTemporaryDirectory((await getTemporaryDirectory()).path);
 
             if (!mounted) return;
             Navigator.push(
