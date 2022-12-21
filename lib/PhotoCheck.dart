@@ -12,7 +12,8 @@ import "FontProvider.dart";
 import "FontProduction.dart";
 
 class PhotoCheck extends StatefulWidget {
-  const PhotoCheck({Key? key}) : super(key: key);
+  final File scannedImage;
+  const PhotoCheck({Key? key, required this.scannedImage}) : super(key: key);
 
   @override
   State<PhotoCheck> createState() => _PhotoCheckState();
@@ -51,17 +52,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
             border: Border.all(width: 2, color: Colors.blue),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: ClipRect(
-              child: Transform.scale(
-                scale: 2.5,
-                child: Center(
-                  child: Image.file(File(_pathProvider.imagePath)),
-                ),
-              ),
-            ),
-          ),
+          child: Image.file(File(widget.scannedImage.path)),
         ),
         SizedBox(height: 25),
         Column(
@@ -98,7 +89,7 @@ class _PhotoCheckState extends State<PhotoCheck> {
                     await _idProvider.setAndroidId();
 
                     final imageBytes =
-                        File(_pathProvider.imagePath).readAsBytesSync();
+                        File(widget.scannedImage.path).readAsBytesSync();
                     final base64Image = base64Encode(imageBytes);
 
                     var dio = Dio();
