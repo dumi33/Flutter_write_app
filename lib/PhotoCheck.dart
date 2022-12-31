@@ -2,17 +2,20 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:dio/dio.dart";
-import "dart:convert";
 
 import "IDProvider.dart";
 import "PathProvider.dart";
 import "URLProvider.dart";
 import "FontProvider.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:shared_storage/shared_storage.dart";
+import "package:flutter/services.dart";
 
 import "FontProduction.dart";
 
 class PhotoCheck extends StatefulWidget {
   final File scannedImage;
+
   const PhotoCheck({Key? key, required this.scannedImage}) : super(key: key);
 
   @override
@@ -88,24 +91,26 @@ class _PhotoCheckState extends State<PhotoCheck> {
                   try {
                     await _idProvider.setAndroidId();
 
-                    final imageBytes =
-                        File(widget.scannedImage.path).readAsBytesSync();
-                    final base64Image = base64Encode(imageBytes);
-
                     var dio = Dio();
                     dio.options.baseUrl = _urlProvider.url;
                     dio.options.connectTimeout = 5000; //5s
                     dio.options.receiveTimeout = 3000;
-                    dio.options.contentType = Headers.formUrlEncodedContentType;
+                    dio.options.contentType = "multipart/form-data";
 
-                    await dio.post("/FontTest/imageInput", data: {
-                      "id": _idProvider.androidId,
-                      "image": base64Image,
-                    });
+                    final response = await dio.post("/FontTest/imageInput",
+                        data: FormData.fromMap({
+                          "id": _idProvider.androidId,
+                          "image": await MultipartFile.fromFile(
+                              widget.scannedImage.path)
+                        }));
 
-                    await _fontProvider.setFontImages(
-                        _idProvider.androidId);
-
+                    if (response.data["result"] == "ok") {
+                      await _fontProvider.setFontImages(_idProvider.androidId);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "파일 전송에 문제가 생겼습니다.\n다시 시도해주세요.");
+                      return;
+                    }
                     if (!mounted) return;
 
                     DefaultTabController.of(context)?.animateTo(1);

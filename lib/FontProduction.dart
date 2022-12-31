@@ -5,13 +5,25 @@ import "package:flutter/material.dart";
 
 import "package:document_scanner_flutter/document_scanner_flutter.dart";
 import "package:document_scanner_flutter/configs/configs.dart";
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
+import "package:path_provider/path_provider.dart";
 import "package:provider/provider.dart";
 import "package:dio/dio.dart";
 import "package:fluttertoast/fluttertoast.dart";
-import 'package:write_app/PhotoCheck.dart';
+import 'package:shared_storage/shared_storage.dart';
 
+import "PhotoCheck.dart";
 import "PathProvider.dart";
+
+class FontFrame {
+  final Uint8List image;
+
+  FontFrame({required this.image});
+
+  factory FontFrame.fromJson(Map<String, dynamic> json) {
+    return FontFrame(image: Uint8List(json['image']));
+  }
+}
 
 class FontProduction extends StatefulWidget {
   const FontProduction({Key? key}) : super(key: key);
@@ -81,32 +93,44 @@ class _FontProductionState extends State<FontProduction> {
                       TextButton(
                         child: const Text("다운로드"),
                         onPressed: () async {
-                          _pathProvider.setTemporaryDirectory((await getTemporaryDirectory()).path);
+                          _pathProvider.setTemporaryDirectory(
+                              (await getTemporaryDirectory()).path);
 
                           final options = BaseOptions(
                             baseUrl: "http://211.44.188.100:8080",
                             connectTimeout: 5000, //5s
                             receiveTimeout: 3000,
-                            contentType: Headers.formUrlEncodedContentType,
                           );
                           final dio = Dio(options);
 
-                          Response response = await dio.post(
+                          Response response = await dio.get(
                             "/FontTest/downloadFontFrame",
                             options: Options(
                                 sendTimeout: 30000, receiveTimeout: 30000),
                           );
-
-                          Uint8List fontFrame = base64Decode(response.data);
+                          Uint8List fontFrame =
+                              base64Decode(response.data["image"]);
                           File file = await File(
                                   "${_pathProvider.temporaryDirectory}/font frame.png")
                               .create();
                           file.writeAsBytesSync(fontFrame);
-                          File("${_pathProvider.temporaryDirectory}/font frame.png")
-                              .copySync(
-                                  "/storage/emulated/0/Download/font frame.png");
-                          Fluttertoast.showToast(
-                              msg: "글씨 틀 다운로드가 완료되었습니다.\n다운로드 폴더를 확인해보세요.");
+
+                          Uri? uri = await openDocumentTree();
+
+                          Map<String, dynamic>? result = await MethodChannel(
+                                  "com.ivehement.plugins/saf/documentfile")
+                              .invokeMapMethod<String, dynamic>(
+                                  "createFile", <String, dynamic>{
+                            "mimeType": "any",
+                            "content": fontFrame,
+                            "displayName": "font frame.png",
+                            "directoryUri": "$uri",
+                          });
+
+                          if (result!["exists"] == "true") {
+                            Fluttertoast.showToast(
+                                msg: "글씨 틀 다운로드가 완료되었습니다.");
+                          }
                         },
                       ),
                       TextButton(
@@ -127,12 +151,14 @@ class _FontProductionState extends State<FontProduction> {
         ElevatedButton(
           onPressed: () async {
             await openImageScanner(context);
-            _pathProvider.setTemporaryDirectory((await getTemporaryDirectory()).path);
+            _pathProvider
+                .setTemporaryDirectory((await getTemporaryDirectory()).path);
 
             if (!mounted) return;
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => (PhotoCheck(scannedImage: _scannedImage!))),
+              MaterialPageRoute(
+                  builder: (_) => (PhotoCheck(scannedImage: _scannedImage!))),
             );
           },
           style: ElevatedButton.styleFrom(

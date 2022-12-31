@@ -48,7 +48,7 @@ class FontProvider extends ChangeNotifier {
       });
 
       _fontImages[i] = encodePng(
-              copyCrop(decodePng(base64Decode(response.data))!, 0, 0, 370, 100))
+              copyCrop(decodePng(base64Decode(response.data["image"]))!, 0, 0, 370, 100))
           as Uint8List;
 
       notifyListeners();
@@ -66,7 +66,7 @@ class FontProvider extends ChangeNotifier {
     );
 
     _genByInput = encodePng(
-            copyCrop(decodePng(base64Decode(response.data))!, 0, 0, 370, 100))
+            copyCrop(decodePng(base64Decode(response.data["image"]))!, 0, 0, 370, 100))
         as Uint8List;
 
     notifyListeners();

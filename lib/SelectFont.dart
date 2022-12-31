@@ -132,7 +132,7 @@ class _SelectFontState extends State<SelectFont> {
                   await _fontProvider.setGenByInput(
                       _idProvider.androidId,
                       index,
-                      "'모란이 피기까지는'");
+                      "'모란이 피기까지는\n나는 아직 나의 봄을 기다리고 있을테요\n모란이 뚝뚝 떨어져버린 날\n나는 비로소 봄을 여읜 설움에 잠길테요'");
 
                   if (!mounted) return;
 
