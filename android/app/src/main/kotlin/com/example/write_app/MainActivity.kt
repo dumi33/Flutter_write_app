@@ -1,4 +1,4 @@
-package com.example.write_app
+package com.geumcheongu.my_fancy_handwriting
 
 import io.flutter.embedding.android.FlutterActivity
 
